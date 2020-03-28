@@ -1,3 +1,7 @@
+/**
+ * Todo Component
+ */
+
 import React from 'react';
 
 function Todo() {
