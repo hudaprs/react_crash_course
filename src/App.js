@@ -13,7 +13,7 @@ class App extends Component {
       {
         id: 2,
         title: 'Learn How To Code',
-        completed: true
+        completed: false
       },
       {
         id: 3,
@@ -23,10 +23,22 @@ class App extends Component {
     ]
   };
 
+  // Make todo completed
+  makeCompleted = (id) => {
+    return this.setState({
+      todos: this.state.todos.filter(todo => {
+        if(todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      })
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <Todo todos={this.state.todos} />
+        <Todo todos={this.state.todos} makeCompleted={this.makeCompleted}/>
       </div>
     )
   };
