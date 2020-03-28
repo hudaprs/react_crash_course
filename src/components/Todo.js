@@ -1,15 +1,12 @@
-/**
- * Todo Component
- */
+import React, { Component } from 'react';
+import TodoItem from './TodoItem';
 
-import React from 'react';
-
-function Todo() {
-  return (
-    <div>
-      <h1>Todo</h1>
-    </div>
-  );
+class Todo extends Component {
+  render() {
+    return this.props.todos.map(todo => (
+      <TodoItem key={todo.id} todo={todo}/>
+    ));
+  };
 }
 
 export default Todo;
