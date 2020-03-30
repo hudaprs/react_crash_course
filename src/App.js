@@ -4,43 +4,46 @@ import Header from './components/layouts/Header';
 import Todo from './components/Todos/Todo'
 import CreateTodo from './components/Todos/CreateTodo';
 import About from './components/Pages/About';
+import axios from 'axios';
 import './App.css'
 
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: 1,
-        title: 'Learn ReactJS',
-        completed: false
-      },
-      {
-        id: 2,
-        title: 'Learn How To Code',
-        completed: false
-      },
-      {
-        id: 3,
-        title: 'Prepare for fasting',
-        completed: false
-      }
-    ]
+    todos: []
   };
 
-  // Create Todo
-  createTodo = (title) => {
-    if(title === '') {
-      alert('Title cannot be blank')
-      return false
-    }  
-    const newTodo = {
-      id: this.state.todos.length + 1,
-      title,
-      completed: false
+  componentDidMount = async () => {
+    try {
+      const getTodos = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      const { data: todos } = getTodos
+      this.setState({
+        todos
+      })
+    } catch(err) {
+      console.log(err)
     }
-    this.setState({
-      todos: [...this.state.todos, newTodo]
-    })
+  }
+
+  // Create Todo
+  createTodo = async (title) => {
+    try {
+      if(title === '') {
+        alert('Title cannot be blank')
+        return false
+      } 
+      const newTodo = await axios.post('https://jsonplaceholder.typicode.com/todos', {
+        title,
+        completed: false
+      })
+      
+      const { data: todo } = newTodo
+
+      this.setState({
+        todos: [...this.state.todos, todo]
+      })
+    } catch(err) {
+      console.log(err)
+    } 
   } 
 
   // Make todo completed
@@ -56,10 +59,15 @@ class App extends Component {
   }
 
   // Delete Todo
-  deleteTodo = (id) => {
-    this.setState({
-      todos: [...this.state.todos.filter(todo => todo.id !== id)]
-    })
+  deleteTodo = async (id) => {
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+      this.setState({
+        todos: [...this.state.todos.filter(todo => todo.id !== id)]
+      })
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   render() {

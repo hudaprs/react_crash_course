@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 
 class CreateTodo extends Component {
   state = {
@@ -24,7 +25,7 @@ class CreateTodo extends Component {
           type="text"
           name="title"
           onChange={this.onChange}
-          value={this.state.value}
+          value={this.state.title}
           placeholder="What's you gonna do today"
           style={{flex: '10', padding: '5px'}}
         />
@@ -38,6 +39,11 @@ class CreateTodo extends Component {
       </form>
     );
   }
+}
+
+CreateTodo.propTypes = {
+  createTodo: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default CreateTodo;
