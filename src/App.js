@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layouts/Header';
 import Todo from './components/Todos/Todo'
 import CreateTodo from './components/Todos/CreateTodo';
+import About from './components/Pages/About';
 import './App.css'
 
 class App extends Component {
@@ -62,19 +64,27 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="container">
-          <Header />
-          <CreateTodo 
-            createTodo={this.createTodo}
-          />
-          <Todo 
-            todos={this.state.todos} 
-            makeCompleted={this.makeCompleted} 
-            deleteTodo={this.deleteTodo}
-          />
+      <Router>
+        <div className="App">
+          <div className="container">
+            <Header />
+            <Route exact path="/" render={props => (
+              <React.Fragment>
+                <CreateTodo 
+                  createTodo={this.createTodo}
+                />
+                <Todo 
+                  todos={this.state.todos} 
+                  makeCompleted={this.makeCompleted} 
+                  deleteTodo={this.deleteTodo}
+                />
+              </React.Fragment>
+            )} />
+
+            <Route path="/about" component={About} />
+          </div>
         </div>
-      </div>
+      </Router>
     )
   };
 }
