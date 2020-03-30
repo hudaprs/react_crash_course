@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import Todo from './components/Todo'
+import Header from './components/layouts/Header';
+import Todo from './components/Todos/Todo'
+import CreateTodo from './components/Todos/CreateTodo';
 import './App.css'
 
 class App extends Component {
@@ -23,9 +25,25 @@ class App extends Component {
     ]
   };
 
+  // Create Todo
+  createTodo = (title) => {
+    if(title === '') {
+      alert('Title cannot be blank')
+      return false
+    }  
+    const newTodo = {
+      id: this.state.todos.length + 1,
+      title,
+      completed: false
+    }
+    this.setState({
+      todos: [...this.state.todos, newTodo]
+    })
+  } 
+
   // Make todo completed
   makeCompleted = (id) => {
-    return this.setState({
+    this.setState({
       todos: this.state.todos.filter(todo => {
         if(todo.id === id) {
           todo.completed = !todo.completed;
@@ -45,7 +63,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Todo todos={this.state.todos} makeCompleted={this.makeCompleted} deleteTodo={this.deleteTodo}/>
+        <div className="container">
+          <Header />
+          <CreateTodo 
+            createTodo={this.createTodo}
+          />
+          <Todo 
+            todos={this.state.todos} 
+            makeCompleted={this.makeCompleted} 
+            deleteTodo={this.deleteTodo}
+          />
+        </div>
       </div>
     )
   };
